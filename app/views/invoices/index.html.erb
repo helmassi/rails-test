@@ -11,14 +11,14 @@
   </thead>
 
   <tbody>
-    <% Invoice.all.each do |invoice| %>
+    <% Invoice.preload(:invoice_lines).each do |invoice| %>
       <tr>
         <td><%= invoice.id %></td>
         <td><%= invoice.date %></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><%= invoice.deadline %></td>
+        <td><%= invoice.invoice_lines.sum(&:amount) %></td>
+        <td><%= invoice.invoice_lines.sum(&:tax) %></td>
+        <td><%= invoice.invoice_lines.sum(&:amount) + invoice.invoice_lines.sum(&:tax) %></td>
       </tr>
     <% end %>
   </tbody>
